@@ -1,0 +1,12 @@
+{
+  "autoload": {
+    "psr-4": {
+      "BlackScorp\\Avis\\":"src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "BlackScorp\\Test\\": "tests/"
+    }
+  }
+}
