@@ -10,7 +10,7 @@ use BlackScorp\Avis\UseCase\ViewDispatcherUseCase;
 use BlackScorp\Avis\View\ClientView;
 use PHPUnit\Framework\TestCase;
 
-class ViewDispatcherTest extends TestCase
+class ViewClientListTest extends TestCase
 {
     public function testClientExists(){
         /**
