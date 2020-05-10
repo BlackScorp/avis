@@ -6,5 +6,10 @@ namespace BlackScorp\Avis\View;
 
 class ClientView
 {
-    public $isSelected = false;
+    public bool $isSelected = false;
+
+    public function setActive():void
+    {
+        $this->isSelected = true;
+    }
 }

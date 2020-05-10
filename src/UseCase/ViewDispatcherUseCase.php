@@ -30,7 +30,9 @@ class ViewDispatcherUseCase
 
         foreach($clients as $client){
             $clientView = new ClientView($client);
-
+            if($client->getOrderId() === $messageStream->getOrderId()){
+                $clientView->setActive();
+            }
             $messageStream->addClient($clientView);
         }
     }
