@@ -2,7 +2,9 @@
 
 namespace BlackScorp\Test;
 
+use BlackScorp\Avis\Entity\LoadUnitEntity;
 use BlackScorp\Avis\MessageStream\ListLoadUnitsMessageStream;
+use BlackScorp\Avis\Repository\LoadUnitRepository;
 use BlackScorp\Avis\UseCase\ListLoadUnitsUseCase;
 use PHPUnit\Framework\TestCase;
 
@@ -12,7 +14,11 @@ class ListLoadUnitsTest extends TestCase
 
         $messagesStream = $this->getMockBuilder(ListLoadUnitsMessageStream::class)->getMock();
         $messagesStream->expects($this->once())->method('getOrderId');
-        $useCase = new ListLoadUnitsUseCase();
+
+        $loadUnitRepository = $this->getMockBuilder(LoadUnitRepository::class)->getMock();
+
+
+        $useCase = new ListLoadUnitsUseCase($loadUnitRepository);
 
         $useCase->process($messagesStream);
 
@@ -23,10 +29,16 @@ class ListLoadUnitsTest extends TestCase
         $loadUnits = [];
         $messagesStream = $this->getMockBuilder(ListLoadUnitsMessageStream::class)->getMock();
         $messagesStream->expects($this->once())->method('getOrderId');
-        $messagesStream->expects($this->any())->method('addLoadUnit')->willReturnCallback(function($loadUnit) use(&$loadUnits){
+        $messagesStream->expects($this->any())->method('addLoadUnit')
+            ->willReturnCallback(function($loadUnit) use(&$loadUnits){
             $loadUnits[]=$loadUnit;
         });
-        $useCase = new ListLoadUnitsUseCase();
+
+        $loadUnitRepository = $this->getMockBuilder(LoadUnitRepository::class)->getMock();
+        $loadUnitRepository->expects($this->once())->method('findByOrderId')
+            ->willReturn([new LoadUnitEntity()]);
+
+        $useCase = new ListLoadUnitsUseCase($loadUnitRepository);
 
         $useCase->process($messagesStream);
 
