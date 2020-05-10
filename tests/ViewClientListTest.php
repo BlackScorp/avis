@@ -74,4 +74,29 @@ class ViewClientListTest extends TestCase
         $this->assertCount(1,$clients);
         $this->assertTrue($clients[0]->isSelected);
     }
+    public function testNoClientsFound(){
+        /**
+         * Arrange
+         */
+
+        $clientRepository = $this->getMockBuilder(ClientRepository::class)->getMock();
+        $clientRepository->expects($this->any())->method('findByOrderId')->willReturn([]);
+
+        $useCase = new ViewDispatcherUseCase($clientRepository);
+        /**
+         * @var ClientView[]
+         */
+        $clients = [];
+        $messageStream = $this->getMockBuilder(ViewDispatcherMessageStream::class)->getMock();
+         /**
+         * Act
+         */
+        $useCase->process($messageStream);
+
+        /**
+         * Assert
+         */
+        $this->assertCount(0,$clients);
+
+    }
 }
